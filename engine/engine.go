@@ -1,28 +1,30 @@
 package engine
 
 import (
+	"log"
 	"os"
 	"sync"
+	"time"
 
-	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/aws/aws-sdk-go/service/sqs"
-
-	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/alwindoss/robin/listener"
 	// "github.com/docker/goamz/dynamodb"
 )
 
-var queueURL = os.Getenv("QUEUE_URL")
-var sess = session.Must(session.NewSession())
-var dynamoSvc = dynamodb.New(sess)
-var sqsSvc = sqs.New(sess)
 var wg sync.WaitGroup
+var queueURL = os.Getenv("QUEUE_URL")
 
 func startConsole(port string) {
-
+	for {
+		time.Sleep(1000 * time.Millisecond)
+		log.Println("In the console")
+	}
 }
 
 func startListener() {
-
+	sqsListener := listener.SQSListener{
+		Endpoint: queueURL,
+	}
+	listener.StartListening(sqsListener)
 }
 
 // StartRobin is the main controller of the Robin Application
