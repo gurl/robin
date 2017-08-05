@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 	"sync"
-	"time"
 
 	"github.com/alwindoss/robin/listener"
+	"github.com/alwindoss/robin/web"
 	// "github.com/docker/goamz/dynamodb"
 )
 
@@ -14,10 +14,9 @@ var wg sync.WaitGroup
 var queueURL = os.Getenv("QUEUE_URL")
 
 func startConsole(port string) {
-	for {
-		time.Sleep(1000 * time.Millisecond)
-		log.Println("In the console")
-	}
+	// time.Sleep(1000 * time.Millisecond)
+	log.Println("Starting the Console")
+	web.StartServer(port)
 }
 
 func startListener() {
