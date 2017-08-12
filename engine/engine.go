@@ -5,8 +5,8 @@ import (
 	"os"
 	"sync"
 
-	"github.com/alwindoss/robin/listener"
-	"github.com/alwindoss/robin/web"
+	"github.com/gurl/robin/listener"
+	"github.com/gurl/robin/web"
 	// "github.com/docker/goamz/dynamodb"
 )
 

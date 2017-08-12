@@ -30,7 +30,7 @@
 
 package main
 
-import "github.com/alwindoss/robin/cmd"
+import "github.com/gurl/robin/cmd"
 
 func main() {
 	cmd.Execute()
