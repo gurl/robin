@@ -46,11 +46,11 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		engine.StartRobin(port)
+		engine.StartRobin(queueType)
 	},
 }
 
-var port string
+var queueType string
 
 func init() {
 	startCmd.AddCommand(serverCmd)
@@ -64,5 +64,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// serverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	serverCmd.Flags().StringVarP(&port, "port", "p", "8080", "--port 8081 (default is 8080)")
+	serverCmd.Flags().StringVarP(&queueType, "queue-type", "q", "rmq", "--queue-type sqs (default is rmq)")
 }

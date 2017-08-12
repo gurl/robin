@@ -6,31 +6,33 @@ import (
 	"sync"
 
 	"github.com/gurl/robin/listener"
-	"github.com/gurl/robin/web"
-	// "github.com/docker/goamz/dynamodb"
 )
 
 var wg sync.WaitGroup
 var queueURL = os.Getenv("QUEUE_URL")
 
-func startConsole(port string) {
-	// time.Sleep(1000 * time.Millisecond)
-	log.Println("Starting the Console")
-	web.StartServer(port)
-}
-
-func startListener() {
-	sqsListener := listener.SQSListener{
-		Endpoint: queueURL,
+func startListener(queueType string) {
+	var queueListener listener.Listener
+	if queueType == "rmq" {
+		queueListener = listener.RMQListener{
+			Endpoint:  queueURL,
+			Host:      "localhost",
+			Port:      "5672",
+			QueueName: "robin-queue",
+		}
+	} else if queueType == "sqs" {
+		queueListener = listener.SQSListener{
+			Endpoint: queueURL,
+		}
+	} else {
+		log.Fatalf("No listeners available for this time of queue\n")
 	}
-	listener.StartListening(sqsListener)
+	listener.StartListening(queueListener)
 }
 
 // StartRobin is the main controller of the Robin Application
-func StartRobin(port string) {
-	go startConsole(port)
-	wg.Add(1)
-	go startListener()
+func StartRobin(queueType string) {
+	go startListener(queueType)
 	wg.Add(1)
 	wg.Wait()
 }
